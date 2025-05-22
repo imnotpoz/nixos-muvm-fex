@@ -5,6 +5,9 @@ let
     url = "${url}/archive/${rev}.tar.gz";
     sha256 = narHash;
   };
-  flake = import flake-compat { src = ./.; copySourceTreeToStore = false; };
+  flake = import flake-compat {
+    src = ./.;
+    copySourceTreeToStore = false;
+  };
 in
 flake.inputs

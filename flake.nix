@@ -20,12 +20,14 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-muvm,
+      nixos-apple-silicon,
       ...
     }:
     let
       system = "aarch64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      overlay = import ./overlay.nix;
+      overlay = import ./overlay.nix { inherit nixpkgs-muvm nixos-apple-silicon; };
       pkgs' = pkgs.extend overlay;
     in
     {
