@@ -16,6 +16,7 @@ Example NixOS+flakes usage:
 { pkgs, inputs, ... }: {
   # Applying the overlay globally
   nixpkgs.config.nixos-muvm-fex.mesaDoCross = true; # Set to false if you have an x86_64 builder available
+                                                    # Will default to false if your nixpkgs is new enough
   nixpkgs.overlays = [ inputs.nixos-muvm-fex.overlays.default ];
   environment.systemPackages = [ pkgs.muvm ];
 
