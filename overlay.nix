@@ -31,17 +31,13 @@ let
       mesa = if hasMesaFork then "mesa-asahi-edge" else "mesa";
     in
     {
-      virglrenderer =
-        if hasMesaFork then
-          prev.virglrenderer.overrideAttrs (old: {
-            src = final.fetchurl {
-              url = "https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/asahi-20250424/virglrenderer-asahi-20250424.tar.bz2";
-              hash = "sha256-9qFOsSv8o6h9nJXtMKksEaFlDP1of/LXsg3LCRL79JM=";
-            };
-            mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
-          })
-        else
-          prev.virglrenderer;
+      virglrenderer = prev.virglrenderer.overrideAttrs (old: {
+        src = final.fetchurl {
+          url = "https://gitlab.freedesktop.org/asahi/virglrenderer/-/archive/asahi-20250424/virglrenderer-asahi-20250424.tar.bz2";
+          hash = "sha256-9qFOsSv8o6h9nJXtMKksEaFlDP1of/LXsg3LCRL79JM=";
+        };
+        mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
+      });
       mesa-asahi-edge = final.callPackage ./mesa.nix { inherit (prev) mesa-asahi-edge; };
       mesa-x86_64-linux =
         if getMesaShouldCross final hasMesaFork then
