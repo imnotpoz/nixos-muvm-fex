@@ -21,10 +21,13 @@ Example NixOS+flakes usage:
 
   # Applying the overlay only for muvm
   environment.systemPackages = let
+    # Use if you want to overwrite mesaDoCross
     pkgsFex = import pkgs.path {
       config.nixos-muvm-fex.mesaDoCross = true;
       overlays = [ inputs.nixos-muvm-fex.overlays.default ];
-    }
+    };
+    # Otherwise use this
+    pkgsFex = pkgs.extend inputs.nixos-muvm-fex.overlays.default;
   in [ pkgsFex.muvm ];
 }
 ```
