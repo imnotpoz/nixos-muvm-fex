@@ -15,10 +15,16 @@ Example NixOS+flakes usage:
 ```nix
 { pkgs, inputs, ... }: {
   # Applying the overlay globally
-  nixpkgs.overlays = [ inputs.nixos-mmuvm-fex.overlays.default ];
+  nixpkgs.config.nixos-muvm-fex.mesaDoCross = true; # Set to false if you have an x86_64 builder available
+  nixpkgs.overlays = [ inputs.nixos-muvm-fex.overlays.default ];
   environment.systemPackages = [ pkgs.muvm ];
 
   # Applying the overlay only for muvm
-  environment.systemPackages = [ (pkgs.extend inputs.nixos-mmuvm-fex.overlays.default).muvm ];
+  environment.systemPackages = let
+    pkgsFex = import pkgs.path {
+      config.nixos-muvm-fex.mesaDoCross = true;
+      overlays = [ inputs.nixos-muvm-fex.overlays.default ];
+    }
+  in [ pkgsFex.muvm ];
 }
 ```

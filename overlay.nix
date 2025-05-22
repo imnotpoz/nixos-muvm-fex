@@ -6,6 +6,20 @@ in
   nixos-apple-silicon ? inputs.nixos-apple-silicon,
 }:
 let
+  getMesaShouldCross =
+    pkgs:
+    let
+      cfg = pkgs.config.nixos-muvm-fex or { };
+    in
+    cfg.mesaDoCross or true;
+
+  x86_64-linux-pkgs =
+    pkgs:
+    import pkgs.path {
+      inherit (pkgs) config overlays;
+      localSystem = "x86_64-linux";
+    };
+
   # This overlay assumes all previous required overlays have been applied
   overlay = final: prev: {
     virglrenderer = prev.virglrenderer.overrideAttrs (old: {
@@ -16,14 +30,19 @@ let
       mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
     });
     mesa-asahi-edge = final.callPackage ./mesa.nix { inherit (prev) mesa-asahi-edge; };
+    mesa-asahi-edge-x86_64 =
+      if getMesaShouldCross final then
+        final.pkgsCross.gnu64.mesa-asahi-edge
+      else
+        (x86_64-linux-pkgs final).mesa-asahi-edge;
+    mesa-x86_64-linux = final.mesa-asahi-edge-x86_64;
     muvm = final.callPackage ./muvm.nix {
       inherit (prev) muvm;
-      mesa-x86_64-linux = final.pkgsCross.gnu64.mesa-asahi-edge;
     };
     fex = final.callPackage ./fex.nix { };
     fex-x86_64-rootfs = final.runCommand "fex-rootfs" { nativeBuildInputs = [ final.erofs-utils ]; } ''
       mkdir -p rootfs/run/opengl-driver
-      cp -R "${final.pkgsCross.gnu64.mesa-asahi-edge}"/* rootfs/run/opengl-driver/
+      cp -R "${final.mesa-x86_64-linux}"/* rootfs/run/opengl-driver/
       mkfs.erofs $out rootfs/
     '';
   };
