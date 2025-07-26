@@ -2,7 +2,6 @@ let
   inputs = import ./inputs.nix;
 in
 {
-  nixpkgs-muvm ? inputs.nixpkgs-muvm,
   nixos-apple-silicon ? inputs.nixos-apple-silicon,
 }:
 let
@@ -57,22 +56,8 @@ let
 
   nixos-apple-silicon-overlay = import "${nixos-apple-silicon}/apple-silicon-support/packages/overlay.nix";
 
-  # Overlay which applies changes from https://github.com/NixOS/nixpkgs/pull/397932
-  # Only gets applied if there's no muvm package
-  muvm-overlay =
-    final: prev:
-    if prev ? muvm then
-      { }
-    else
-      {
-        libkrunfw = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/li/libkrunfw/package.nix" { };
-        libkrun = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/li/libkrun/package.nix" { };
-        muvm = final.callPackage "${nixpkgs-muvm}/pkgs/by-name/mu/muvm/package.nix" { };
-      };
-
   overlays = [
     nixos-apple-silicon-overlay
-    muvm-overlay
     overlay
   ];
 in

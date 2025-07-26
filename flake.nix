@@ -7,10 +7,6 @@
       url = "github:yuyuyureka/nixos-apple-silicon/minimize-patches";
       flake = false;
     };
-    nixpkgs-muvm = {
-      url = "github:NixOS/nixpkgs?ref=refs/pull/397932/head";
-      flake = false;
-    };
     __flake-compat = {
       url = "git+https://git.lix.systems/lix-project/flake-compat.git";
       flake = false;
@@ -20,14 +16,13 @@
   outputs =
     {
       nixpkgs,
-      nixpkgs-muvm,
       nixos-apple-silicon,
       ...
     }:
     let
       system = "aarch64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-      overlay = import ./overlay.nix { inherit nixpkgs-muvm nixos-apple-silicon; };
+      overlay = import ./overlay.nix { inherit nixos-apple-silicon; };
       pkgs' = pkgs.extend overlay;
     in
     {
