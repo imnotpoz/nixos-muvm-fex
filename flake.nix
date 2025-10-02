@@ -30,12 +30,12 @@
 
       packages.${system} = {
         inherit (pkgs')
-          mesa-asahi-edge
+          mesa
           muvm
           fex
           fex-x86_64-rootfs
           ;
-        mesa-x86_64-linux = pkgs'.pkgsCross.gnu64.mesa-asahi-edge;
+        mesa-x86_64-linux = pkgs'.pkgsCross.gnu64.mesa;
       };
     };
 }

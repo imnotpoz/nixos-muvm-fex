@@ -37,7 +37,7 @@ let
         };
         mesonFlags = old.mesonFlags ++ [ (final.lib.mesonOption "drm-renderers" "asahi-experimental") ];
       });
-      mesa-asahi-edge = final.callPackage ./mesa.nix { inherit (prev) mesa-asahi-edge; };
+      mesa = final.callPackage ./mesa.nix { inherit (prev) mesa; };
       mesa-x86_64-linux =
         if getMesaShouldCross final hasMesaFork then
           final.pkgsCross.gnu64.${mesa}
