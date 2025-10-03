@@ -19,16 +19,15 @@
     "nixos-apple-silicon": {
       "flake": false,
       "locked": {
-        "lastModified": 1747085439,
-        "narHash": "sha256-YjJ1K5XYMT7dn68iE7RK4wyPgofiBnN5jkkcJKHD/VA=",
-        "owner": "yuyuyureka",
+        "lastModified": 1759244631,
+        "narHash": "sha256-b8k+l2ygOZD3ABD8H2Nl/oiZ7byT52SLrqiU3D5FG88=",
+        "owner": "nix-community",
         "repo": "nixos-apple-silicon",
-        "rev": "09b6f9693c04cd8df950b7711db731d5c7b2166f",
+        "rev": "db555f5ac04144c5a56d60dbf4e15a3e58ccae08",
         "type": "github"
       },
       "original": {
-        "owner": "yuyuyureka",
-        "ref": "minimize-patches",
+        "owner": "nix-community",
         "repo": "nixos-apple-silicon",
         "type": "github"
       }
