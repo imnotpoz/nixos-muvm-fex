@@ -8,7 +8,7 @@ let
   getMesaShouldCross =
     pkgs: hasMesaFork:
     let
-      cfg = pkgs.config.nixos-muvm-fex or { };
+      cfg = pkgs.config.nixos-muvm-fex or { mesaDoCross = true; };
     in
     # Default to building natively if we're not using the Asahi fork,
     # since it will probably be in cache.nixos.org.
