@@ -33,9 +33,10 @@
           mesa
           muvm
           fex
-          fex-x86_64-rootfs
+          fex-x86-rootfs
           ;
         mesa-x86_64-linux = pkgs'.pkgsCross.gnu64.mesa;
+        mesa-i686-linux = pkgs'.pkgsCross.gnu32.mesa;
       };
     };
 }

@@ -21,6 +21,13 @@ let
       localSystem = "x86_64-linux";
     };
 
+  i686-linux-pkgs =
+    pkgs:
+    import pkgs.path {
+      inherit (pkgs) config overlays;
+      localSystem = "i686-linux";
+    };
+
   # This overlay assumes all previous required overlays have been applied
   # Also overrides mesa and virglrenderer to asahi forks, but only if mesa is pre-uAPI-merge.
   overlay =
@@ -43,13 +50,20 @@ let
           final.pkgsCross.gnu64.${mesa}
         else
           (x86_64-linux-pkgs final).${mesa};
+      mesa-i686-linux =
+        if getMesaShouldCross final hasMesaFork then
+          final.pkgsCross.gnu32.${mesa}
+        else
+          (i686-linux-pkgs final).${mesa};
       muvm = final.callPackage ./muvm.nix {
         inherit (prev) muvm;
       };
       fex = final.callPackage ./fex.nix { };
-      fex-x86_64-rootfs = final.runCommand "fex-rootfs" { nativeBuildInputs = [ final.erofs-utils ]; } ''
+      fex-x86-rootfs = final.runCommand "fex-rootfs" { nativeBuildInputs = [ final.erofs-utils ]; } ''
         mkdir -p rootfs/run/opengl-driver
+        mkdir -p rootfs/run/opengl-driver-32
         cp -R "${final.mesa-x86_64-linux}"/* rootfs/run/opengl-driver/
+        cp -R "${final.mesa-i686-linux}"/* rootfs/run/opengl-driver-32/
         mkfs.erofs $out rootfs/
       '';
     };
