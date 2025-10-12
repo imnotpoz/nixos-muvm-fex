@@ -6,6 +6,7 @@
   buildPackages,
   fetchFromGitLab,
   libdisplay-info,
+  v4l-utils,
 }:
 let
   isCross = stdenv.hostPlatform != stdenv.buildPlatform;
@@ -37,7 +38,11 @@ in
     buildInputs =
       old.buildInputs or []
       ++ [
-        libdisplay-info
+        (libdisplay-info.overrideAttrs {
+          v4l-utils = v4l-utils.override {
+            withGUI = false;
+          };
+        })
       ];
 
     nativeBuildInputs =
