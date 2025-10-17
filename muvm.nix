@@ -6,6 +6,7 @@
   dhcpcd,
   socat,
   coreutils,
+  glibc_multi,
   fex,
   withFex ? stdenv.isAarch64,
   fex-x86-rootfs,
@@ -51,6 +52,10 @@ let
       cp "${lib.getExe' fuse "fusermount"}" /run/wrappers/bin/fusermount
       chown root:root /run/wrappers/bin/fusermount
       chmod u=srx,g=x,o=x /run/wrappers/bin/fusermount
+
+      # steam expects /sbin/ldconfig to exist
+      mkdir -p /sbin/ldconfig
+      ln -s ${glibc_multi.bin}/bin/ldconfig /sbin/ldconfig
     '';
   };
 
