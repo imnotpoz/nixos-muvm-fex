@@ -6,7 +6,7 @@
   dhcpcd,
   socat,
   coreutils,
-  glibc_multi,
+  pkgsCross,
   fex,
   withFex ? stdenv.isAarch64,
   fex-x86-rootfs,
@@ -54,8 +54,8 @@ let
       chmod u=srx,g=x,o=x /run/wrappers/bin/fusermount
 
       # steam expects /sbin/ldconfig to exist
-      mkdir -p /sbin/ldconfig
-      ln -s ${glibc_multi.bin}/bin/ldconfig /sbin/ldconfig
+      mkdir -p /sbin/
+      ln -s ${pkgsCross.gnu64.glibc.bin}/bin/ldconfig /sbin/ldconfig
     '';
   };
 
