@@ -11,6 +11,7 @@
   python3,
   erofs-utils,
   makeWrapper,
+  xxHash,
 }:
 let
   binPath = lib.makeBinPath [ erofs-utils ];
@@ -56,6 +57,11 @@ llvmPackages.stdenv.mkDerivation (finalAttrs: rec {
     qtdeclarative
     qtquickcontrols
     qtquickcontrols2
+    # the unofficial cmake has a minimum version of 2.8.12
+    # this fails to build with cmake 4.0
+    # BUT FEX first checks for xxHash with pkg-config
+    # https://github.com/FEX-Emu/FEX/blob/FEX-2510/CMakeLists.txt#L326-L333
+    xxHash
   ];
 
   cmakeFlags = [
