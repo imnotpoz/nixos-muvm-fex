@@ -65,6 +65,6 @@ in
       "swrast"
     ];
     vulkanLayers = [
-        "device-select"
+      "device-select"
     ];
   }
