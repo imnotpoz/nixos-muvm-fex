@@ -16,8 +16,8 @@ in
       domain = "gitlab.freedesktop.org";
       owner = "mesa";
       repo = "mesa";
-      tag = "mesa-25.2.3";
-      hash = "sha256-3URQ9ZZ22vdZpToZqpWbcpsAI4e8a5X35/5HWOprbPM=";
+      tag = "mesa-25.3.2";
+      hash = "sha256-wvRKKSDA4QxLB4J7fLLZvEXl3xsPMIF21iHsgl0l5vg=";
     };
 
     postInstall =
