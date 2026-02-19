@@ -53,26 +53,15 @@ let
       chmod u=srx,g=x,o=x /run/wrappers/bin/fusermount
     '';
   };
-
-  wrapperArgs = 
-    [
-      "--prefix"
-      "PATH"
-      ":"
-      binPath
-      "--add-flags"
-      "--execute-pre=${lib.getExe initScript}"
-    ]
-    ++ lib.optionals (withFex && fexRootFS != null) [
-      # TODO: Doesn't actually currently work
-      "--add-flags"
-      "--fex-image=${fexRootFS}"
-    ];
 in
 assert lib.assertMsg (withFex -> stdenv.isAarch64) "FEX only support aarch64 hosts";
 muvm.overrideAttrs {
   # Replace nixpkgs wrapper with ours
   postFixup = ''
-    wrapProgram $out/bin/muvm ${wrapperArgs}
+    wrapProgram $out/bin/muvm \
+      --prefix PATH : ${binPath} --add-flags --execute-pre=${lib.getExe initScript} \
+      ${lib.optionalString (withFex && fexRootFS != null)
+          # TODO: Doesn't actually currently work
+          "--add-flags '--fex-image=${fexRootFS}'"}
   '';
 }
