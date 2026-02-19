@@ -54,7 +54,7 @@ let
     '';
   };
 
-  wrapperArgs = lib.escapeShellArgs (
+  wrapperArgs = 
     [
       "--prefix"
       "PATH"
@@ -67,8 +67,7 @@ let
       # TODO: Doesn't actually currently work
       "--add-flags"
       "--fex-image=${fexRootFS}"
-    ]
-  );
+    ];
 in
 assert lib.assertMsg (withFex -> stdenv.isAarch64) "FEX only support aarch64 hosts";
 muvm.overrideAttrs {
