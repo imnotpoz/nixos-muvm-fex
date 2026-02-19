@@ -61,7 +61,7 @@ muvm.overrideAttrs {
     wrapProgram $out/bin/muvm \
       --prefix PATH : ${binPath} --add-flags --execute-pre=${lib.getExe initScript} \
       ${lib.optionalString (withFex && fexRootFS != null)
-          # TODO: Doesn't actually currently work
-          "--add-flags '--fex-image=${fexRootFS}'"}
+        # TODO: Doesn't actually currently work
+        "--add-flags '--fex-image=${fexRootFS}'"}
   '';
 }
